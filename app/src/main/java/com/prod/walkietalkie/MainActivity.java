@@ -2,12 +2,12 @@ package com.prod.walkietalkie;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import io.agora.openlive.voice.only.model.ConstantApp;
 import io.agora.openlive.voice.only.ui.BaseActivity;
 import io.agora.openlive.voice.only.ui.LiveRoomActivity;
 import io.agora.rtc.Constants;
-import android.os.Looper;
-import android.os.Handler;
 
 public class MainActivity extends BaseActivity
 {

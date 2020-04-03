@@ -37,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 import android.content.SharedPreferences;
 import java.util.Arrays;
 import com.squareup.okhttp.Protocol;
+import io.agora.media.RtcTokenBuilder;
 
 public abstract class BaseActivity extends Activity {
     
@@ -58,6 +59,13 @@ public abstract class BaseActivity extends Activity {
             }
         });
     }
+	
+	public String getToken(String channelName) {
+		RtcTokenBuilder token = new RtcTokenBuilder();
+        int timestamp = (int)(System.currentTimeMillis() / 1000 + 3600);
+        return token.buildTokenWithUid("7d07a0e18f6b49cca8b0d108917f414c", "99c8f861daf14225a40071043b5179f5",  
+												channelName, 0, RtcTokenBuilder.Role.Role_Publisher, timestamp);
+	}
 
     protected abstract void initUIandEvent();
 
