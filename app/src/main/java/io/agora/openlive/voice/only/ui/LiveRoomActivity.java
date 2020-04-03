@@ -204,39 +204,27 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 					write("current_channel", "channel_"+channel);
 					String currentChannel = read("current_channel", "channel_00_01");
 					updateChannelCount(prevChannel, currentChannel);
-					get(new Listener() {
-
-							@Override
-							public void onResponse(String token) {
-								write("token", token);
-								final String currentChannel = read("current_channel", "channel_00_01");
-								/*for (int i=0; i<pushCount; i++) {
-									//rtcEngine().leaveChannel();
-									pop();
-								}*/
-								clearAll();
-								pushCount = 0;
-								ChannelMediaOptions opt = new ChannelMediaOptions();
-								opt.autoSubscribeAudio = true;
-								opt.autoSubscribeVideo = false;
-								RtcChannel c = worker().getRtcEngine().createRtcChannel("channel_00_00");
-								c.joinChannel(token, null, 0, opt);
-								pushCount++;
-								push(c);
-								get(new Listener() {
-
-										@Override
-										public void onResponse(String token) {
-											worker().joinChannel(currentChannel, token, 0);
-											pushCount++;
-											push();
-											channelView.setText(currentChannel.replace("channel_", "").replace("_", ".").trim());
-											searchingSignal = false;
-											noSignal.setVisibility(View.GONE);
-										}
-									}, ConstantApp.TOKEN_GENERATION_URL+currentChannel);
-							}
-						}, ConstantApp.TOKEN_GENERATION_URL+"channel_00_00");
+					String token = getToken("channel_00_00");
+					write("token", token);
+					currentChannel = read("current_channel", "channel_00_01");
+					for (int i=0; i<pushCount; i++) {
+						pop();
+					}
+					pushCount = 0;
+					ChannelMediaOptions opt = new ChannelMediaOptions();
+					opt.autoSubscribeAudio = true;
+					opt.autoSubscribeVideo = false;
+					RtcChannel c = worker().getRtcEngine().createRtcChannel("channel_00_00");
+					c.joinChannel(token, null, 0, opt);
+					pushCount++;
+					push(c);
+					token = getToken(currentChannel);
+					worker().joinChannel(currentChannel, token, 0);
+					pushCount++;
+					push();
+					channelView.setText(currentChannel.replace("channel_", "").replace("_", ".").trim());
+					searchingSignal = false;
+					noSignal.setVisibility(View.GONE);
 				}
 			})
 			.setNegativeButton("Batal", null)
@@ -285,16 +273,30 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 	}
 	
 	public void changeToGroup(View view) {
+		if (!lcdActive) {
+			return;
+		}
+		if (searchingSignal) {
+			return;
+		}
+		String prevChannel = getChannelName();
+		isPublic = true;
+		write("is_public", 1);
 		searchingSignal = true;
-		String token = getToken("public");
+		noSignal.setVisibility(View.VISIBLE);
+		updateChannelCount(prevChannel, "international");
+		String token = getToken("channel_00_00");
 		write("token", token);
 		for (int i=0; i<pushCount; i++) {
 			pop();
 		}
 		pushCount = 0;
-		worker().getRtcEngine().joinChannel("public", token, null, 0);
+		worker().getRtcEngine().joinChannel("channel_00_00", token, null, 0);
 		push();
 		pushCount++;
+		channelView.setText("channel_00_00");
+		searchingSignal = false;
+		noSignal.setVisibility(View.GONE);
 		searchingSignal = false;
 	}
 	
@@ -330,7 +332,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 							public void onResponse(String token) {
 								worker().joinChannel("channel_00_00", token, config().mUid);
 								pushCount++;
-								channelView.setText("PUBLIC");
+								channelView.setText("channel_00_00");
 								searchingSignal = false;
 								noSignal.setVisibility(View.GONE);
 							}
@@ -364,7 +366,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 					pushCount = 0;
 					worker().joinChannel(currentChannel, config().mUid);
 					pushCount++;
-					channelView.setText("PUBLIC");
+					channelView.setText("channel_00_00");
 					searchingSignal = false;
 					noSignal.setVisibility(View.GONE);
 				}
@@ -399,7 +401,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 					pushCount = 0;
 					worker().joinChannel(currentChannel, token, config().mUid);
 					pushCount++;
-					channelView.setText("PUBLIC");
+					channelView.setText("channel_00_00");
 					searchingSignal = false;
 					noSignal.setVisibility(View.GONE);
 				}
@@ -427,7 +429,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 					pushCount = 0;
 					worker().joinChannel("international", token, config().mUid);
 					pushCount++;
-					channelView.setText("PUBLIC");
+					channelView.setText("channel_00_00");
 					searchingSignal = false;
 					noSignal.setVisibility(View.GONE);
 				}
@@ -435,18 +437,31 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 	}*/
 	
 	public void changeToPrivate(View view) {
+		if (!lcdActive) {
+			return;
+		}
+		if (searchingSignal) {
+			return;
+		}
+		String prevChannel = getChannelName();
+		isPublic = false;
+		write("is_public", 0);
 		searchingSignal = true;
-		String token = getToken("public");
+		noSignal.setVisibility(View.VISIBLE);
+		String currentChannel = read("current_channel", "channel_00_01");
+		write("current_channel", currentChannel);
+		updateChannelCount(prevChannel, getChannelName());
+		String token = getToken("channel_00_00");
 		write("token", token);
 		for (int i=0; i<pushCount; i++) {
 			pop();
 		}
 		pushCount = 0;
-		final String currentChannel = read("current_channel", "channel_00_01");
+		currentChannel = read("current_channel", "channel_00_01");
 		ChannelMediaOptions opt = new ChannelMediaOptions();
 		opt.autoSubscribeAudio = true;
 		opt.autoSubscribeVideo = false;
-		RtcChannel c = worker().getRtcEngine().createRtcChannel("public");
+		RtcChannel c = worker().getRtcEngine().createRtcChannel("channel_00_00");
 		c.joinChannel(token, null, 0, opt);
 		push(c);
 		pushCount++;
@@ -461,6 +476,9 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 		worker().joinChannel(currentChannel, token, 0);
 		push();
 		pushCount++;
+		channelView.setText(currentChannel.replace("channel_", "").replace("_", ".").trim());
+		searchingSignal = false;
+		noSignal.setVisibility(View.GONE);
 		searchingSignal = false;
 	}
 
@@ -509,7 +527,17 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 	}*/
 	
 	public void channelUp(View view) {
+		if (isPublic) {
+			return;
+		}
+		if (!lcdActive) {
+			return;
+		}
+		if (searchingSignal) {
+			return;
+		}
 		searchingSignal = true;
+		noSignal.setVisibility(View.VISIBLE);
 		String currentChannel = read("current_channel", "channel_00_01");
 		String a = currentChannel.substring(8, 10);
 		String b = currentChannel.substring(11, 13);
@@ -536,6 +564,9 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 		worker().joinChannel(currentChannel, token, config().mUid);
 		push();
 		pushCount++;
+		channelView.setText(currentChannel.replace("channel_", "").replace("_", ".").trim());
+		searchingSignal = false;
+		noSignal.setVisibility(View.GONE);
 		searchingSignal = false;
 	}
 
@@ -654,7 +685,17 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 	}
 	
 	public void channelDown(View view) {
+		if (isPublic) {
+			return;
+		}
+		if (!lcdActive) {
+			return;
+		}
+		if (searchingSignal) {
+			return;
+		}
 		searchingSignal = true;
+		noSignal.setVisibility(View.VISIBLE);
 		String currentChannel = read("current_channel", "channel_00_01");
 		String a = currentChannel.substring(8, 10);
 		String b = currentChannel.substring(11, 13);
@@ -685,6 +726,9 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 		worker().joinChannel(currentChannel, token, config().mUid);
 		push();
 		pushCount++;
+		channelView.setText(currentChannel.replace("channel_", "").replace("_", ".").trim());
+		searchingSignal = false;
+		noSignal.setVisibility(View.GONE);
 		searchingSignal = false;
 	}
 	
