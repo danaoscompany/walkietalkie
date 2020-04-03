@@ -292,7 +292,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 			pop();
 		}
 		pushCount = 0;
-		worker().joinChannel("channel_00_00", token, config().mUid);
+		worker().getRtcEngine().joinChannel("channel_00_00", token, null, 0);
 		push();
 		pushCount++;
 		searchingSignal = false;
