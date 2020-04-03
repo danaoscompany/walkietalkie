@@ -286,13 +286,13 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 	
 	public void changeToGroup(View view) {
 		searchingSignal = true;
-		String token = getToken("channel_00_00");
+		String token = getToken("public");
 		write("token", token);
 		for (int i=0; i<pushCount; i++) {
 			pop();
 		}
 		pushCount = 0;
-		worker().getRtcEngine().joinChannel("channel_00_00", token, null, 0);
+		worker().getRtcEngine().joinChannel("public", token, null, 0);
 		push();
 		pushCount++;
 		searchingSignal = false;
