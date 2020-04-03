@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1073427718735",
+    "firebase_url": "https://walkie-talkie-a43cc.firebaseio.com",
+    "project_id": "walkie-talkie-a43cc",
+    "storage_bucket": "walkie-talkie-a43cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073427718735:android:99c04ba3104d2204e9803a",
+        "android_client_info": {
+          "package_name": "com.prod.walkietalkie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1073427718735-fas9lh4t0mfov6oqe04pulm28b3arfmd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAvWABauXRWIVCEndXPzSK7ZJrBMHme6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1073427718735-fas9lh4t0mfov6oqe04pulm28b3arfmd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resources>
+    <!-- PLEASE KEEP THIS App ID IN SAFE PLACE -->
+    <!-- Get your own App ID at https://dashboard.agora.io/ -->
+    <!-- After you entered the App ID, remove <##> outside of Your App ID -->
+    <!-- For formal released project, please use Dynamic Key
+        http://docs.agora.io/en/user_guide/Component_and_Others/Dynamic_Key_User_Guide.html -->
+    <string name="private_app_id">7d07a0e18f6b49cca8b0d108917f414c</string>
+	<string name="token">0067d07a0e18f6b49cca8b0d108917f414cIAAOp0/3+EXJC/PbqityKgfMycD5mLGvOCX1qBsxXEIiq1unyBkAAAAAEABXPAJxjgCGXgEAAQCNAIZe/6AIXw3AnzC4bh+tpUfEFzj4DlUAdpGskUMZHmOAS44oAAAAAEABXPAJxt/2FXgEAAQC2/YVe</string>
+
+    <string name="legal_channel_name_characters">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&amp;()+,-:;&lt;=.>?@[]^_`{|}~</string>
+
+</resources>
