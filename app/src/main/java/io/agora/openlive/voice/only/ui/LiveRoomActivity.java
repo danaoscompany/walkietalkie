@@ -211,13 +211,13 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 						pop();
 					}
 					pushCount = 0;
-					ChannelMediaOptions opt = new ChannelMediaOptions();
+					/*ChannelMediaOptions opt = new ChannelMediaOptions();
 					opt.autoSubscribeAudio = true;
 					opt.autoSubscribeVideo = false;
 					RtcChannel c = worker().getRtcEngine().createRtcChannel("channel_00_00");
 					c.joinChannel(token, null, 0, opt);
 					pushCount++;
-					push(c);
+					push(c);*/
 					token = getToken(currentChannel);
 					worker().joinChannel(currentChannel, token, 0);
 					pushCount++;
@@ -300,142 +300,6 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 		searchingSignal = false;
 	}
 	
-	/*public void changeToGroup(View view) {
-		if (!lcdActive) {
-			return;
-		}
-		if (searchingSignal) {
-			return;
-		}
-		String prevChannel = getChannelName();
-		isPublic = true;
-		write("is_public", 1);
-		searchingSignal = true;
-		noSignal.setVisibility(View.VISIBLE);
-		updateChannelCount(prevChannel, "international");
-		//show("Joining channel 2...");
-		get(new Listener() {
-
-				@Override
-				public void onResponse(String token) {
-					write("token", token);
-					for (int i=0; i<pushCount; i++) {
-						rtcEngine().leaveChannel();
-					}
-					pushCount = 0;
-					worker().joinChannel("international", token, config().mUid);
-					pushCount++;
-					final String token0 = token;
-					get(new Listener() {
-
-							@Override
-							public void onResponse(String token) {
-								worker().joinChannel("channel_00_00", token, config().mUid);
-								pushCount++;
-								channelView.setText("channel_00_00");
-								searchingSignal = false;
-								noSignal.setVisibility(View.GONE);
-							}
-						}, ConstantApp.TOKEN_GENERATION_URL+"channel_00_00");
-				}
-			}, ConstantApp.TOKEN_GENERATION_URL+"international");
-	}*/
-	
-	/*public void changeToGroup(View view) {
-		if (!lcdActive) {
-			return;
-		}
-		if (searchingSignal) {
-			return;
-		}
-		String prevChannel = getChannelName();
-		isPublic = true;
-		write("is_public", 1);
-		searchingSignal = true;
-		noSignal.setVisibility(View.VISIBLE);
-		final String currentChannel = "channel_00_00";
-		updateChannelCount(prevChannel, currentChannel);
-		get(new Listener() {
-
-				@Override
-				public void onResponse(String token) {
-					write("token", token);
-					for (int i=0; i<pushCount; i++) {
-						rtcEngine().leaveChannel();
-					}
-					pushCount = 0;
-					worker().joinChannel(currentChannel, config().mUid);
-					pushCount++;
-					channelView.setText("channel_00_00");
-					searchingSignal = false;
-					noSignal.setVisibility(View.GONE);
-				}
-			}, ConstantApp.TOKEN_GENERATION_URL+currentChannel);
-	}*/
-	
-	/*public void changeToGroup(View view) {
-		if (!lcdActive) {
-			return;
-		}
-		if (searchingSignal) {
-			return;
-		}
-		isPublic = true;
-		searchingSignal = true;
-		noSignal.setVisibility(View.VISIBLE);
-		//write("current_channel", "channel_00_00");
-		final String currentChannel = "channel_00_00";
-		String prevChannel = getChannelName();
-		write("current_channel", currentChannel);
-		FirebaseDatabase.getInstance().getReference("user_count").child(prevChannel).child(getDeviceID()).removeValue();
-		FirebaseDatabase.getInstance().getReference("user_count").child(getChannelName()).child(getDeviceID()).setValue(1);
-		//show("Joining channel 2...");
-		get(new Listener() {
-
-				@Override
-				public void onResponse(String token) {
-					write("token", token);
-					for (int i=0; i<pushCount; i++) {
-						rtcEngine().leaveChannel();
-					}
-					pushCount = 0;
-					worker().joinChannel(currentChannel, token, config().mUid);
-					pushCount++;
-					channelView.setText("channel_00_00");
-					searchingSignal = false;
-					noSignal.setVisibility(View.GONE);
-				}
-			}, ConstantApp.TOKEN_GENERATION_URL+currentChannel);
-	}*/
-
-	/*public void changeToGroup(View view) {
-		if (!lcdActive) {
-			return;
-		}
-		if (searchingSignal) {
-			return;
-		}
-		searchingSignal = true;
-		noSignal.setVisibility(View.VISIBLE);
-		//show("Joining channel 2...");
-		get(new Listener() {
-
-				@Override
-				public void onResponse(String token) {
-					write("token", token);
-					for (int i=0; i<pushCount; i++) {
-						rtcEngine().leaveChannel();
-					}
-					pushCount = 0;
-					worker().joinChannel("international", token, config().mUid);
-					pushCount++;
-					channelView.setText("channel_00_00");
-					searchingSignal = false;
-					noSignal.setVisibility(View.GONE);
-				}
-			}, ConstantApp.TOKEN_GENERATION_URL+"international");
-	}*/
-	
 	public void changeToPrivate(View view) {
 		if (!lcdActive) {
 			return;
@@ -458,13 +322,13 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 		}
 		pushCount = 0;
 		currentChannel = read("current_channel", "channel_00_01");
-		ChannelMediaOptions opt = new ChannelMediaOptions();
+		/*ChannelMediaOptions opt = new ChannelMediaOptions();
 		opt.autoSubscribeAudio = true;
 		opt.autoSubscribeVideo = false;
 		RtcChannel c = worker().getRtcEngine().createRtcChannel("channel_00_00");
 		c.joinChannel(token, null, 0, opt);
 		push(c);
-		pushCount++;
+		pushCount++;*/
 		token = getToken(currentChannel);
 		write("token", token);
 		/*ChannelMediaOptions opt = new ChannelMediaOptions();
@@ -481,50 +345,6 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 		noSignal.setVisibility(View.GONE);
 		searchingSignal = false;
 	}
-
-	/*public void changeToPrivate(View view) {
-		if (!lcdActive) {
-			return;
-		}
-		if (searchingSignal) {
-			return;
-		}
-		String prevChannel = getChannelName();
-		isPublic = false;
-		write("is_public", 0);
-		searchingSignal = true;
-		noSignal.setVisibility(View.VISIBLE);
-		final String currentChannel = read("current_channel", "channel_00_01");
-		write("current_channel", currentChannel);
-		updateChannelCount(prevChannel, getChannelName());
-		//show("Joining channel 2...");
-		get(new Listener() {
-
-				@Override
-				public void onResponse(String token) {
-					write("token", token);
-					final String currentChannel = read("current_channel", "channel_00_01");
-					for (int i=0; i<pushCount; i++) {
-						rtcEngine().leaveChannel();
-					}
-					pushCount = 0;
-					worker().joinChannel(currentChannel, token, config().mUid);
-					pushCount++;
-					final String token0 = token;
-					get(new Listener() {
-
-							@Override
-							public void onResponse(String token) {
-								worker().joinChannel("channel_00_00", token, config().mUid);
-								pushCount++;
-								channelView.setText(currentChannel.replace("channel_", "").replace("_", ".").trim());
-								searchingSignal = false;
-								noSignal.setVisibility(View.GONE);
-							}
-						}, ConstantApp.TOKEN_GENERATION_URL+"channel_00_00");
-				}
-			}, ConstantApp.TOKEN_GENERATION_URL+currentChannel);
-	}*/
 	
 	public void channelUp(View view) {
 		if (isPublic) {
@@ -568,120 +388,6 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 		searchingSignal = false;
 		noSignal.setVisibility(View.GONE);
 		searchingSignal = false;
-	}
-
-	/*public void channelUp(View view) {
-		if (isPublic) {
-			return;
-		}
-		if (!lcdActive) {
-			return;
-		}
-		if (searchingSignal) {
-			return;
-		}
-		searchingSignal = true;
-		noSignal.setVisibility(View.VISIBLE);
-		//show("Joining channel 2...");
-		String currentChannel = read("current_channel", "channel_00_01");
-		String a = currentChannel.substring(8, 10);
-		String b = currentChannel.substring(11, 13);
-		int aa = Integer.parseInt(a);
-		int bb = Integer.parseInt(b);
-		if (bb < 99) {
-			bb++;
-		} else {
-			if (aa < 99) {
-				bb = 0;
-				aa += 1;
-			}
-		}
-		currentChannel = "channel_"+String.format("%02d", aa)+"_"+String.format("%02d", bb);
-		String prevChannel = getChannelName();
-		write("current_channel", currentChannel);
-		updateChannelCount(prevChannel, getChannelName());
-		get(new Listener() {
-
-				@Override
-				public void onResponse(String token) {
-					write("token", token);
-					final String currentChannel = read("current_channel", "channel_00_01");
-					for (int i=0; i<pushCount; i++) {
-						//rtcEngine().leaveChannel();
-						pop();
-					}
-					clearAll();
-					pushCount = 0;
-					ChannelMediaOptions opt = new ChannelMediaOptions();
-					opt.autoSubscribeAudio = true;
-					opt.autoSubscribeVideo = false;
-					RtcChannel c = worker().getRtcEngine().createRtcChannel("channel_00_00");
-					c.joinChannel(token, null, 0, opt);
-					pushCount++;
-					push(c);
-					get(new Listener() {
-
-							@Override
-							public void onResponse(String token) {
-								worker().joinChannel(currentChannel, token, 0);
-								pushCount++;
-								push();
-								channelView.setText(currentChannel.replace("channel_", "").replace("_", ".").trim());
-								searchingSignal = false;
-								noSignal.setVisibility(View.GONE);
-							}
-						}, ConstantApp.TOKEN_GENERATION_URL+currentChannel);
-				}
-			}, ConstantApp.TOKEN_GENERATION_URL+"channel_00_00");
-	}*/
-
-	public void updateChannelCount(String prevChannel, final String channelName) {
-		if (prevChannel == null) {
-			FirebaseDatabase.getInstance().getReference("user_count").child(channelName).child(getDeviceID()).setValue(1).addOnCompleteListener(new OnCompleteListener() {
-
-					@Override
-					public void onComplete(Task task) {
-						updateChannelCount(channelName);
-					}
-				});
-		} else {
-			FirebaseDatabase.getInstance().getReference("user_count").child(prevChannel).child(getDeviceID()).removeValue().addOnCompleteListener(new OnCompleteListener() {
-
-					@Override
-					public void onComplete(Task task) {
-						FirebaseDatabase.getInstance().getReference("user_count").child(channelName).child(getDeviceID()).setValue(1).addOnCompleteListener(new OnCompleteListener() {
-
-								@Override
-								public void onComplete(Task task) {
-									updateChannelCount(channelName);
-								}
-							});
-					}
-				});
-		}
-	}
-	
-	public void updateChannelCount(String channelName) {
-		if (ref != null && l != null) {
-			ref.removeEventListener(l);
-		}
-		ref = FirebaseDatabase.getInstance().getReference("user_count").child(channelName);
-		ref.addValueEventListener(new ValueEventListener() {
-
-				@Override
-				public void onDataChange(DataSnapshot dataSnapshot)
-				{
-					l = this;
-					long userCount = dataSnapshot.getChildrenCount();
-					connectionCountView.setText(""+userCount);
-				}
-
-				@Override
-				public void onCancelled(DatabaseError p1)
-				{
-					// TODO: Implement this method
-				}
-			});
 	}
 	
 	public void channelDown(View view) {
@@ -731,74 +437,55 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 		noSignal.setVisibility(View.GONE);
 		searchingSignal = false;
 	}
-	
-	/*public void channelDown(View view) {
-		if (isPublic) {
-			return;
-		}
-		if (!lcdActive) {
-			return;
-		}
-		if (searchingSignal) {
-			return;
-		}
-		searchingSignal = true;
-		noSignal.setVisibility(View.VISIBLE);
-		//show("Joining channel 2...");
-		String currentChannel = read("current_channel", "channel_00_01");
-		String a = currentChannel.substring(8, 10);
-		String b = currentChannel.substring(11, 13);
-		int aa = Integer.parseInt(a);
-		int bb = Integer.parseInt(b);
-		if (bb > 0) {
-			bb--;
+
+	public void updateChannelCount(String prevChannel, final String channelName) {
+		if (prevChannel == null) {
+			FirebaseDatabase.getInstance().getReference("user_count").child(channelName).child(getDeviceID()).setValue(1).addOnCompleteListener(new OnCompleteListener() {
+
+					@Override
+					public void onComplete(Task task) {
+						updateChannelCount(channelName);
+					}
+				});
 		} else {
-			if (aa > 0) {
-				bb = 99;
-				aa -= 1;
-			}
+			FirebaseDatabase.getInstance().getReference("user_count").child(prevChannel).child(getDeviceID()).removeValue().addOnCompleteListener(new OnCompleteListener() {
+
+					@Override
+					public void onComplete(Task task) {
+						FirebaseDatabase.getInstance().getReference("user_count").child(channelName).child(getDeviceID()).setValue(1).addOnCompleteListener(new OnCompleteListener() {
+
+								@Override
+								public void onComplete(Task task) {
+									updateChannelCount(channelName);
+								}
+							});
+					}
+				});
 		}
-		if (aa == 0 && bb == 0) {
-			aa = 0;
-			bb = 1;
+	}
+	
+	public void updateChannelCount(String channelName) {
+		if (ref != null && l != null) {
+			ref.removeEventListener(l);
 		}
-		currentChannel = "channel_"+String.format("%02d", aa)+"_"+String.format("%02d", bb);
-		String prevChannel = getChannelName();
-		write("current_channel", currentChannel);
-		updateChannelCount(prevChannel, getChannelName());
-		get(new Listener() {
+		ref = FirebaseDatabase.getInstance().getReference("user_count").child(channelName);
+		ref.addValueEventListener(new ValueEventListener() {
 
 				@Override
-				public void onResponse(String token) {
-					write("token", token);
-					final String currentChannel = read("current_channel", "channel_00_01");
-					for (int i=0; i<pushCount; i++) {
-						pop();
-					}
-					clearAll();
-					pushCount = 0;
-					ChannelMediaOptions opt = new ChannelMediaOptions();
-					opt.autoSubscribeAudio = true;
-					opt.autoSubscribeVideo = false;
-					RtcChannel c = worker().getRtcEngine().createRtcChannel("channel_00_00");
-					c.joinChannel(token, null, 0, opt);
-					pushCount++;
-					push(c);
-					get(new Listener() {
-
-							@Override
-							public void onResponse(String token) {
-								worker().joinChannel(currentChannel, token, 0);
-								pushCount++;
-								push();
-								channelView.setText(currentChannel.replace("channel_", "").replace("_", ".").trim());
-								searchingSignal = false;
-								noSignal.setVisibility(View.GONE);
-							}
-						}, ConstantApp.TOKEN_GENERATION_URL+currentChannel);
+				public void onDataChange(DataSnapshot dataSnapshot)
+				{
+					l = this;
+					long userCount = dataSnapshot.getChildrenCount();
+					connectionCountView.setText(""+userCount);
 				}
-			}, ConstantApp.TOKEN_GENERATION_URL+"channel_00_00");
-	}*/
+
+				@Override
+				public void onCancelled(DatabaseError p1)
+				{
+					// TODO: Implement this method
+				}
+			});
+	}
 
 	public void turnLCD(View view) {
 		lcdActive = !lcdActive;
