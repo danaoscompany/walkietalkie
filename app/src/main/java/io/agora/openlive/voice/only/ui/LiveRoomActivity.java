@@ -436,7 +436,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 	
 	public void changeToPrivate(View view) {
 		searchingSignal = true;
-		String token = getToken("channel_00_00");
+		String token = getToken("public");
 		write("token", token);
 		for (int i=0; i<pushCount; i++) {
 			pop();
@@ -446,7 +446,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 		ChannelMediaOptions opt = new ChannelMediaOptions();
 		opt.autoSubscribeAudio = true;
 		opt.autoSubscribeVideo = false;
-		RtcChannel c = worker().getRtcEngine().createRtcChannel("channel_00_00");
+		RtcChannel c = worker().getRtcEngine().createRtcChannel("public");
 		c.joinChannel(token, null, 0, opt);
 		push(c);
 		pushCount++;
