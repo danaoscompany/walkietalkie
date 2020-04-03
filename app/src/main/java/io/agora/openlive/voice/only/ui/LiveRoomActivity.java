@@ -62,6 +62,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 	ValueEventListener l = null;
 	ArrayList<PushItem> items = new ArrayList<>();
 	ArrayList<RtcChannel> channels = new ArrayList<>();
+	boolean ready = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -391,7 +392,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 		}
 		currentChannel = "channel_"+String.format("%02d", aa)+"_"+String.format("%02d", bb);
 		write("current_channel", currentChannel);
-		show(currentChannel);
+		//show(currentChannel);
 		String token = getToken(currentChannel);
 		write("token", token);
 		for (int i=0; i<pushCount; i++) {
@@ -439,7 +440,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 		}
 		currentChannel = "channel_"+String.format("%02d", aa)+"_"+String.format("%02d", bb);
 		write("current_channel", currentChannel);
-		show(currentChannel);
+		//show(currentChannel);
 		String token = getToken(currentChannel);
 		write("token", token);
 		for (int i=0; i<pushCount; i++) {
@@ -506,6 +507,9 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 	}
 
 	public void turnLCD(View view) {
+		if (!ready) {
+			return;
+		}
 		lcdActive = !lcdActive;
 		if (lcdActive) {
 			doConfigEngine(Constants.CLIENT_ROLE_AUDIENCE);
@@ -513,6 +517,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 			noSignal.setBackgroundResource(R.drawable.lcd_bg_active);
 			connectionStatusView.setVisibility(View.VISIBLE);
 			FirebaseDatabase.getInstance().getReference("users").child(getDeviceID()).child("active").setValue(0);
+			changeToPrivate(null);
 			/*FirebaseDatabase.getInstance().getReference("user_count").addValueEventListener(new ValueEventListener() {
 
 					@Override
@@ -609,10 +614,8 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 
         /*TextView textRoomName = (TextView) findViewById(R.id.room_name);
 		 textRoomName.setText(roomName);*/
-
         optional();
-		changeToPrivate(null);
-
+		ready = true;
         /*LinearLayout bottomContainer = (LinearLayout) findViewById(R.id.bottom_container);
 		 FrameLayout.MarginLayoutParams fmp = (FrameLayout.MarginLayoutParams) bottomContainer.getLayoutParams();
 		 fmp.bottomMargin = virtualKeyHeight() + 16;*/
