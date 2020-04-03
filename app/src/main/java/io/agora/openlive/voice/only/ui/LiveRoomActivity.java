@@ -312,7 +312,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 		worker().joinChannel(currentChannel, token, 0);
 		push();
 		pushCount++;
-		channelView.setText(currentChannel.replace("channel_", "").replace("_", ".").trim());
+		channelView.setText("PUBLIC");
 		searchingSignal = false;
 		noSignal.setVisibility(View.GONE);
 		searchingSignal = false;
