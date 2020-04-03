@@ -248,13 +248,14 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 		PushItem item = new PushItem();
 		item.type = PushItem.TYPE_CHANNEL;
 		item.channel = channel;
-		channels.add(channel);
+		items.add(item);
 	}
 	
 	public void push() {
 		PushItem item = new PushItem();
 		item.type = PushItem.TYPE_ENGINE;
 		item.channel = null;
+		items.add(item);
 	}
 	
 	public void pop() {
@@ -266,6 +267,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 				} else if (item.type == PushItem.TYPE_ENGINE) {
 					worker().getRtcEngine().leaveChannel();
 				}
+				items.remove(items.size()-1);
 			}
 		}
 	}
@@ -290,10 +292,11 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 				public void onResponse(String token) {
 					write("token", token);
 					for (int i=0; i<pushCount; i++) {
-						rtcEngine().leaveChannel();
+						pop();
 					}
 					pushCount = 0;
 					worker().joinChannel("channel_00_00", token, config().mUid);
+					push();
 					pushCount++;
 					searchingSignal = false;
 				}
@@ -444,14 +447,16 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 				public void onResponse(String token) {
 					write("token", token);
 					for (int i=0; i<pushCount; i++) {
-						rtcEngine().leaveChannel();
+						pop();
 					}
 					pushCount = 0;
 					final String currentChannel = read("current_channel", "channel_00_01");
 					ChannelMediaOptions opt = new ChannelMediaOptions();
 					opt.autoSubscribeAudio = true;
 					opt.autoSubscribeVideo = false;
-					worker().getRtcEngine().createRtcChannel("channel_00_00").joinChannel(token, null, 0, opt);
+					RtcChannel c = worker().getRtcEngine().createRtcChannel("channel_00_00");
+					c.joinChannel(token, null, 0, opt);
+					push(c);
 					pushCount++;
 					get(new Listener() {
 
@@ -465,6 +470,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 								 c.joinChannel(token, null, 0, opt);
 								 c.publish();*/
 								worker().joinChannel(currentChannel, token, 0);
+								push();
 								pushCount++;
 								searchingSignal = false;
 							}
@@ -541,11 +547,12 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 				public void onResponse(String token) {
 					write("token", token);
 					for (int i=0; i<pushCount; i++) {
-						rtcEngine().leaveChannel();
+						pop();
 					}
 					pushCount = 0;
 					String currentChannel = read("current_channel", "channel_00_01");
 					worker().joinChannel(currentChannel, token, config().mUid);
+					push();
 					pushCount++;
 					searchingSignal = false;
 				}
@@ -694,11 +701,12 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 				public void onResponse(String token) {
 					write("token", token);
 					for (int i=0; i<pushCount; i++) {
-						rtcEngine().leaveChannel();
+						pop();
 					}
 					pushCount = 0;
 					String currentChannel = read("current_channel", "channel_00_01");
 					worker().joinChannel(currentChannel, token, config().mUid);
+					push();
 					pushCount++;
 					searchingSignal = false;
 				}
