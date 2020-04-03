@@ -862,7 +862,7 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 		 textRoomName.setText(roomName);*/
 
         optional();
-		changeToGroup(null);
+		changeToPrivate(null);
 
         /*LinearLayout bottomContainer = (LinearLayout) findViewById(R.id.bottom_container);
 		 FrameLayout.MarginLayoutParams fmp = (FrameLayout.MarginLayoutParams) bottomContainer.getLayoutParams();
