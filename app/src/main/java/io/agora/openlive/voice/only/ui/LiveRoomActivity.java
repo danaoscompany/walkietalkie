@@ -280,21 +280,39 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler
 			return;
 		}
 		String prevChannel = getChannelName();
-		isPublic = true;
-		write("is_public", 1);
+		isPublic = false;
+		write("is_public", 0);
 		searchingSignal = true;
 		noSignal.setVisibility(View.VISIBLE);
-		updateChannelCount(prevChannel, "international");
+		String currentChannel = read("current_channel", "channel_00_01");
+		write("current_channel", currentChannel);
+		updateChannelCount(prevChannel, getChannelName());
 		String token = getToken("channel_00_00");
 		write("token", token);
 		for (int i=0; i<pushCount; i++) {
 			pop();
 		}
 		pushCount = 0;
-		worker().getRtcEngine().joinChannel("channel_00_00", token, null, 0);
+		currentChannel = "channel_00_00";
+		/*ChannelMediaOptions opt = new ChannelMediaOptions();
+		 opt.autoSubscribeAudio = true;
+		 opt.autoSubscribeVideo = false;
+		 RtcChannel c = worker().getRtcEngine().createRtcChannel("channel_00_00");
+		 c.joinChannel(token, null, 0, opt);
+		 push(c);
+		 pushCount++;*/
+		token = getToken(currentChannel);
+		write("token", token);
+		/*ChannelMediaOptions opt = new ChannelMediaOptions();
+		 opt.autoSubscribeAudio = true;
+		 opt.autoSubscribeVideo = false;
+		 RtcChannel c = worker().getRtcEngine().createRtcChannel(channel2);
+		 c.joinChannel(token, null, 0, opt);
+		 c.publish();*/
+		worker().joinChannel(currentChannel, token, 0);
 		push();
 		pushCount++;
-		channelView.setText("channel_00_00");
+		channelView.setText(currentChannel.replace("channel_", "").replace("_", ".").trim());
 		searchingSignal = false;
 		noSignal.setVisibility(View.GONE);
 		searchingSignal = false;
